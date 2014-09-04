@@ -1,2 +1,3 @@
 java_main_class: com.mtnsat.kraken.Launcher
 arguments: all-ship
+jar: kraken.jar

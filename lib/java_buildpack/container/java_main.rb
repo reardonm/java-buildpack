@@ -38,7 +38,7 @@ module JavaBuildpack
 
       # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        @droplet.additional_libraries.insert 0, @application.root
+        @droplet.additional_libraries.insert 0, @application.root + (execJar || "")
         manifest_class_path.each { |path| @droplet.additional_libraries << path }
 
         [
@@ -55,9 +55,15 @@ module JavaBuildpack
 
       ARGUMENTS_PROPERTY = 'arguments'.freeze
 
+      JAR_PROPERTY = 'jar'.freeze
+
       CLASS_PATH_PROPERTY = 'Class-Path'.freeze
 
-      private_constant :ARGUMENTS_PROPERTY, :CLASS_PATH_PROPERTY
+      private_constant :ARGUMENTS_PROPERTY, :CLASS_PATH_PROPERTY, :JAR_PROPERTY
+
+      def execJar
+        @configuration[JAR_PROPERTY]
+      end
 
       def arguments
         @configuration[ARGUMENTS_PROPERTY]
